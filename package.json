@@ -1,0 +1,16 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "Sandbox for express api",
+  "main": "index.js",
+  "scripts": {
+    "devRun": "nodemon index.js"
+  },
+  "author": "Roberto-Aguirre",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "sequelize": "^6.37.6"
+  }
+}
