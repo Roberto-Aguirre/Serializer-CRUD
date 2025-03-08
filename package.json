@@ -4,8 +4,9 @@
   "description": "Sandbox for express api",
   "main": "index.js",
   "scripts": {
-    "devRun": "nodemon index.js"
+    "dev": "nodemon index.js"
   },
+  "type": "module",
   "author": "Roberto-Aguirre",
   "license": "ISC",
   "dependencies": {
