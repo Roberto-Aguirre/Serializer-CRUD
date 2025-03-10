@@ -1,14 +1,16 @@
+import { ValidationError } from "sequelize";
+import { Address } from "../models/Address.js";
 import { Contact } from "../models/Contact.js"
 
 export const getContacts = async (req, res) => {
-    let contacts = await Contact.findAll();
+    let contacts = await Contact.findAll({ include: Address });
     res.send(contacts);
 };
 
 export const getContact = async (req, res) => {
     try {
         let { id } = req.params;
-        let contact = await Contact.findByPk(id);
+        let contact = await Contact.findByPk(id, { include: Address });
         if (!contact)
             return res.status(404).send({ message: 'Contact not found' });
         res.send(contact);
@@ -18,12 +20,20 @@ export const getContact = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
-    let contact = req.body;
     try {
-        Contact.create(contact);
+        let contact = req.body;
+        await Contact.create(contact)
         res.send({ message: 'Contact created' });
     } catch (error) {
-        res.status(500).send({ message: error.message })
+        if (error instanceof ValidationError) {
+            const errosList = []
+            error.errors.forEach(element => {
+                errosList.push(element.message)
+            });
+            return res.status(500).send({ errors: errosList })
+        }        
+        res.status(500).send({messae:error.message})
+
     }
 };
 
